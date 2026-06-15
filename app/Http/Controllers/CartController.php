@@ -13,7 +13,7 @@ class CartController extends Controller
             return redirect()->route('products.index');
         }
 
-        $cartItems = auth()->user()->cart()->with('product')->get();
+        $cartItems = auth()->user()->cart()->with('product.images')->get();
         $total = $cartItems->sum(fn($item) => $item->product->price * $item->quantity);
 
         return view('cart.index', compact('cartItems', 'total'));

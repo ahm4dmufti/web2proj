@@ -19,6 +19,13 @@ class Product extends Model
         'price'        => 'decimal:2',
     ];
 
+    protected static function booted(): void
+    {
+        static::deleting(function (Product $product) {
+            $product->images->each(fn (ProductImage $image) => $image->delete());
+        });
+    }
+
     public function images()
     {
         return $this->hasMany(ProductImage::class)->orderBy('sort_order')->orderBy('id');
@@ -26,6 +33,6 @@ class Product extends Model
 
     public function primaryImage()
     {
-        return $this->images()->first();
+        return $this->images->first();
     }
 }

@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -70,7 +71,7 @@ class ProductController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $index => $file) {
                 $product->images()->create([
-                    'image_data' => base64_encode(file_get_contents($file->getRealPath())),
+                    'path'       => $file->store('products', 'public'),
                     'image_mime' => $file->getMimeType(),
                     'sort_order' => $index,
                 ]);
@@ -98,7 +99,7 @@ class ProductController extends Controller
             $existingCount = $product->images()->count();
             foreach ($request->file('images') as $index => $file) {
                 $product->images()->create([
-                    'image_data' => base64_encode(file_get_contents($file->getRealPath())),
+                    'path'       => $file->store('products', 'public'),
                     'image_mime' => $file->getMimeType(),
                     'sort_order' => $existingCount + $index,
                 ]);
@@ -116,9 +117,10 @@ class ProductController extends Controller
             abort(404);
         }
 
-        return response(base64_decode($image->image_data))
-            ->header('Content-Type', $image->image_mime)
-            ->header('Cache-Control', 'public, max-age=86400');
+        return Storage::disk('public')->response($image->path, null, [
+            'Content-Type'  => $image->image_mime,
+            'Cache-Control' => 'public, max-age=86400',
+        ]);
     }
 
     public function serveProductImage(Product $product, ProductImage $image)
@@ -127,9 +129,10 @@ class ProductController extends Controller
             abort(404);
         }
 
-        return response(base64_decode($image->image_data))
-            ->header('Content-Type', $image->image_mime)
-            ->header('Cache-Control', 'public, max-age=86400');
+        return Storage::disk('public')->response($image->path, null, [
+            'Content-Type'  => $image->image_mime,
+            'Cache-Control' => 'public, max-age=86400',
+        ]);
     }
 
     public function removeImage(Product $product, ProductImage $image)

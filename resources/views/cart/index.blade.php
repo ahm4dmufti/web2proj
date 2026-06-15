@@ -121,7 +121,7 @@
                         @endphp
                         <tr class="inventory-row">
                             <td class="td-photo">
-                                @if($item->product->image_data)
+                                @if($item->product->primaryImage())
                                     <img src="{{ route('products.image', $item->product) }}"
                                          alt="{{ $item->product->name }}" class="table-thumb">
                                 @else

@@ -57,10 +57,138 @@
 </head>
 <body>
 @include('partials.customer-nav')
+
+{{-- ══ Hero / Landing ══ --}}
 <div class="page-wrapper" style="padding-top:2rem;">
+    <section class="hero-section reveal">
+        <div class="hero-eyebrow"><i class="fa-solid fa-gem"></i> Est. since the heart of the old quarter</div>
+        <h1 class="hero-title">Welcome to <em>Mufti Gallery</em></h1>
+        <p class="hero-subtitle">
+            A sanctuary for antiques, fine paintings, vases, and handcrafted treasures —
+            each piece chosen with care, carrying its own story into your home.
+        </p>
+        <div class="hero-actions">
+            <a href="#collection" class="btn-hero-primary">
+                <i class="fa-solid fa-layer-group"></i> Explore the Collection
+            </a>
+            <a href="#about" class="btn-hero-secondary">
+                <i class="fa-solid fa-feather"></i> Our Story
+            </a>
+        </div>
+    </section>
+
+    {{-- ══ About Us ══ --}}
+    <section id="about" class="story-section reveal">
+        <div class="story-grid">
+            <div class="story-text">
+                <div class="section-label">
+                    <i class="fa-solid fa-feather"></i>
+                    <span>About Us</span>
+                </div>
+                <h2>Caretakers of Forgotten Beauty</h2>
+                <p>
+                    Mufti Gallery began as a small family passion for rescuing beautiful,
+                    overlooked objects — pieces that carried craftsmanship and character
+                    but had been forgotten by time. What started as a personal collection
+                    slowly grew into a curated gallery for fellow lovers of fine antiques,
+                    paintings, vases, and handcrafted treasures.
+                </p>
+                <p>
+                    Every item in our collection is hand-selected, inspected, and restored
+                    where needed, so that what reaches you carries both its history and a
+                    renewed sense of life. We believe a home is made richer by objects with
+                    a story — and we're honored to help you find yours.
+                </p>
+            </div>
+            <div class="story-stats">
+                <div class="stat-card reveal reveal-delay-1">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Pieces Curated</span>
+                </div>
+                <div class="stat-card reveal reveal-delay-2">
+                    <span class="stat-number">5</span>
+                    <span class="stat-label">Categories</span>
+                </div>
+                <div class="stat-card reveal reveal-delay-1">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Hand-Picked</span>
+                </div>
+                <div class="stat-card reveal reveal-delay-2">
+                    <span class="stat-number">1</span>
+                    <span class="stat-label">Passion, Endless Stories</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="ornament-divider"><span>✦</span></div>
+
+    {{-- ══ Our History ══ --}}
+    <section class="history-section reveal">
+        <div class="history-header">
+            <div class="section-label center">
+                <i class="fa-solid fa-scroll"></i>
+                <span>Our History</span>
+            </div>
+            <h2>A Legacy Built Piece by Piece</h2>
+            <p>From a single shelf of curiosities to a full gallery — here's how our story unfolded.</p>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item reveal">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                    <span class="timeline-year">The Beginning</span>
+                    <h3>A Small Collection, A Big Passion</h3>
+                    <p>
+                        It started with a handful of antiques and paintings gathered from
+                        estate sales and old family homes — kept not to sell, but simply
+                        because they were too beautiful to let go.
+                    </p>
+                </div>
+            </div>
+            <div class="timeline-item reveal reveal-delay-1">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                    <span class="timeline-year">Opening Our Doors</span>
+                    <h3>Mufti Gallery Welcomes Its First Visitors</h3>
+                    <p>
+                        As the collection grew, so did interest from friends and visitors.
+                        What was once a private hobby became a gallery, open for others
+                        to browse, admire, and bring a piece of history home.
+                    </p>
+                </div>
+            </div>
+            <div class="timeline-item reveal reveal-delay-2">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                    <span class="timeline-year">Growing the Collection</span>
+                    <h3>Expanding Beyond Antiques</h3>
+                    <p>
+                        We broadened our reach to include vases, handcrafted goods, and
+                        vintage electronics — always with the same standard of care and
+                        curation that started it all.
+                    </p>
+                </div>
+            </div>
+            <div class="timeline-item reveal reveal-delay-3">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                    <span class="timeline-year">Today</span>
+                    <h3>A Home for Every Treasure</h3>
+                    <p>
+                        Today, Mufti Gallery continues that same tradition online —
+                        bringing our curated collection to a wider audience while
+                        keeping every piece as personal as the day it was found.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="ornament-divider"><span>✦</span></div>
 
     {{-- ══ Page Title ══ --}}
-    <div class="page-titlebar">
+    <div class="page-titlebar reveal" id="collection">
         <h1><em>Our</em> Collection</h1>
     </div>
 
@@ -326,6 +454,18 @@ function closeLightbox() {
     document.body.style.overflow = '';
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+// Smooth scroll-reveal animations
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            revealObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+document.querySelectorAll('.reveal, .timeline-item').forEach(el => revealObserver.observe(el));
 </script>
 </body>
 </html>
