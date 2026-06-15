@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mufti Gallery — Project Overview</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0f1117;
+      --surface:   #181c27;
+      --border:    #2a2f3f;
+      --accent:    #6c8eff;
+      --accent2:   #a78bfa;
+      --green:     #34d399;
+      --yellow:    #fbbf24;
+      --red:       #f87171;
+      --orange:    #fb923c;
+      --cyan:      #22d3ee;
+      --text:      #e2e8f0;
+      --muted:     #94a3b8;
+      --radius:    10px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15,17,23,0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      height: 54px;
+    }
+    nav .logo {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--accent);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color .2s;
+    }
+    nav a:hover { color: var(--text); }
+
+    /* ── LAYOUT ── */
+    .page { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.4rem;
+    }
+    .subtitle { color: var(--muted); margin-bottom: 3rem; }
+
+    /* ── SECTION ── */
+    section { margin-bottom: 3.5rem; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.4rem;
+      padding-bottom: 0.7rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-icon {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    h2 { font-size: 1.25rem; font-weight: 700; }
+
+    /* ── CARDS ── */
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.4rem;
+      transition: border-color .2s;
+    }
+    .card:hover { border-color: var(--accent); }
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .card p { font-size: 0.875rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .card-title .file-path {
+      font-size: 0.72rem;
+      font-family: monospace;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    /* ── METHODS LIST ── */
+    .methods { margin-top: 0.8rem; display: flex; flex-direction: column; gap: 0.45rem; }
+    .method {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-size: 0.82rem;
+    }
+    .method-name {
+      font-family: monospace;
+      background: rgba(108,142,255,0.12);
+      color: var(--accent);
+      padding: 1px 7px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .method-desc { color: var(--muted); }
+
+    /* ── ROUTES TABLE ── */
+    .route-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+    .route-table thead tr { background: rgba(255,255,255,0.03); }
+    .route-table th {
+      text-align: left;
+      padding: 0.7rem 1rem;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border);
+    }
+    .route-table td {
+      padding: 0.6rem 1rem;
+      border-bottom: 1px solid rgba(42,47,63,0.6);
+      vertical-align: top;
+    }
+    .route-table tr:last-child td { border-bottom: none; }
+    .route-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+    /* ── BADGES ── */
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      font-family: monospace;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+    }
+    .badge-get    { background: rgba(52,211,153,0.15); color: var(--green); }
+    .badge-post   { background: rgba(251,191,36,0.15);  color: var(--yellow); }
+    .badge-patch  { background: rgba(34,211,238,0.15);  color: var(--cyan); }
+    .badge-put    { background: rgba(167,139,250,0.15); color: var(--accent2); }
+    .badge-delete { background: rgba(248,113,113,0.15); color: var(--red); }
+    .badge-inertia { background: rgba(108,142,255,0.12); color: var(--accent); }
+    .badge-public { background: rgba(52,211,153,0.12);  color: var(--green); border: 1px solid rgba(52,211,153,0.25); }
+    .badge-auth   { background: rgba(251,191,36,0.12);  color: var(--yellow); border: 1px solid rgba(251,191,36,0.25); }
+    .badge-verified { background: rgba(248,113,113,0.12); color: var(--red); border: 1px solid rgba(248,113,113,0.25); }
+    .badge-throttle { background: rgba(251,146,60,0.12); color: var(--orange); border: 1px solid rgba(251,146,60,0.25); }
+
+    /* ── MIGRATION CARD ── */
+    .mig-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+    .mig-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1.2rem;
+      background: rgba(255,255,255,0.02);
+      border-bottom: 1px solid var(--border);
+      gap: 1rem;
+    }
+    .mig-filename {
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .mig-body { padding: 0.85rem 1.2rem; }
+    .mig-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    .mig-table td { padding: 0.3rem 0.5rem; border-bottom: 1px solid rgba(42,47,63,0.5); }
+    .mig-table tr:last-child td { border-bottom: none; }
+    .col-name { font-family: monospace; color: var(--text); font-weight: 600; }
+    .col-type { font-family: monospace; color: var(--accent2); }
+    .col-note { color: var(--muted); font-size: 0.78rem; }
+
+    /* ── SESSION BLOCK ── */
+    .session-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .info-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.3rem;
+    }
+    .info-block h3 { font-size: 0.88rem; font-weight: 700; margin-bottom: 0.8rem; color: var(--text); }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.3rem 0;
+      font-size: 0.82rem;
+      border-bottom: 1px solid rgba(42,47,63,0.5);
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-key { color: var(--muted); }
+    .info-val { font-family: monospace; color: var(--text); }
+    code {
+      background: rgba(108,142,255,0.1);
+      color: var(--accent);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.85em;
+    }
+
+    /* ── MODULE OVERVIEW ── */
+    .module-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+    .module-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem;
+      text-align: center;
+      transition: border-color .2s, transform .2s;
+    }
+    .module-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .module-card .icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+    .module-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .module-card p { font-size: 0.78rem; color: var(--muted); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+      padding: 2rem 0;
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 600px) {
+      .session-grid { grid-template-columns: 1fr; }
+      nav a:not(.logo) { display: none; }
+      .route-table th:nth-child(3), .route-table td:nth-child(3) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="#">🏺 Mufti Gallery</a>
+  <a href="#modules">Modules</a>
+  <a href="#controllers">Controllers</a>
+  <a href="#migrations">Migrations</a>
+  <a href="#sessions">Sessions</a>
+  <a href="#routes">Routes</a>
+</nav>
+
+<div class="page">
+
+  <h1>Project Overview</h1>
+  <p class="subtitle">Laravel 11 + React 19 — Antique Gallery with Multi-Team Collaboration</p>
+
+  <!-- ══════════════════════════════════════════
+       MODULES
+  ═══════════════════════════════════════════ -->
+  <section id="modules">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(108,142,255,0.15);">🧩</div>
+      <h2>Modules</h2>
+    </div>
+    <div class="module-grid">
+      <div class="module-card">
+        <div class="icon">🔐</div>
+        <h3>Authentication</h3>
+        <p>Powered by Laravel Fortify — login, register, password reset, email verification, 2FA (TOTP)</p>
+      </div>
+      <div class="module-card">
+        <div class="icon">🏺</div>
+        <h3>Products</h3>
+        <p>Full CRUD for antique gallery inventory — 5 categories, pricing, availability, image support</p>
+      </div>
+      <div class="module-card">
+        <div class="icon">👥</div>
+        <h3>Teams</h3>
+        <p>Multi-team workspace — create, rename, delete, switch teams. Personal team auto-created on register</p>
+      </div>
+      <div class="module-card">
+        <div class="icon">📨</div>
+        <h3>Invitations</h3>
+        <p>Email-based invite flow with 64-char codes, 3-day expiry, role assignment, and accept/cancel actions</p>
+      </div>
+      <div class="module-card">
+        <div class="icon">👤</div>
+        <h3>Profile & Settings</h3>
+        <p>Edit name/email, change password, dark/light/system theme, delete account</p>
+      </div>
+      <div class="module-card">
+        <div class="icon">🛡️</div>
+        <h3>Security</h3>
+        <p>Two-factor authentication (TOTP) with QR code setup, recovery codes, password confirm middleware</p>
+      </div>
+      <div class="module-card">
+        <div class="icon">🗄️</div>
+        <h3>Database Sessions</h3>
+        <p>All sessions, cache, and queues stored in MySQL — no Redis required</p>
+      </div>
+      <div class="module-card">
+        <div class="icon">⚛️</div>
+        <h3>Frontend (Inertia)</h3>
+        <p>React 19 + TypeScript SPA pages served via Inertia.js, Tailwind 4 styling, Radix UI components</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       CONTROLLERS
+  ═══════════════════════════════════════════ -->
+  <section id="controllers">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(167,139,250,0.15);">🎮</div>
+      <h2>Controllers</h2>
+    </div>
+    <div class="cards">
+
+      <!-- ProductController -->
+      <div class="card">
+        <div class="card-title">
+          ProductController
+          <span class="file-path">app/Http/Controllers/</span>
+        </div>
+        <p>Manages the antique gallery product catalog. Public landing page + full authenticated CRUD.</p>
+        <div class="methods">
+          <div class="method">
+            <span class="method-name">index()</span>
+            <span class="method-desc">Public landing — top 3 by price (featured) + 5 most recent</span>
+          </div>
+          <div class="method">
+            <span class="method-name">all()</span>
+            <span class="method-desc">Authenticated full inventory table, ordered by latest</span>
+          </div>
+          <div class="method">
+            <span class="method-name">create()</span>
+            <span class="method-desc">Show the add-product form</span>
+          </div>
+          <div class="method">
+            <span class="method-name">store()</span>
+            <span class="method-desc">Validate via ProductRequest &amp; persist new product</span>
+          </div>
+          <div class="method">
+            <span class="method-name">edit()</span>
+            <span class="method-desc">Show edit form pre-filled with product data</span>
+          </div>
+          <div class="method">
+            <span class="method-name">update()</span>
+            <span class="method-desc">Validate &amp; update product; handles unchecked checkbox for is_available</span>
+          </div>
+          <div class="method">
+            <span class="method-name">destroy()</span>
+            <span class="method-desc">Delete product and redirect with flash success</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TeamController -->
+      <div class="card">
+        <div class="card-title">
+          TeamController
+          <span class="file-path">app/Http/Controllers/Teams/</span>
+        </div>
+        <p>Handles team lifecycle — listing, creation, editing, renaming, switching, and deletion.</p>
+        <div class="methods">
+          <div class="method">
+            <span class="method-name">index()</span>
+            <span class="method-desc">List all teams the authenticated user belongs to</span>
+          </div>
+          <div class="method">
+            <span class="method-name">store()</span>
+            <span class="method-desc">Create new team via CreateTeam action, auto-generate slug</span>
+          </div>
+          <div class="method">
+            <span class="method-name">edit()</span>
+            <span class="method-desc">Show team detail with members, pending invitations &amp; permissions</span>
+          </div>
+          <div class="method">
+            <span class="method-name">update()</span>
+            <span class="method-desc">Rename team using DB transaction + lockForUpdate() to prevent race conditions</span>
+          </div>
+          <div class="method">
+            <span class="method-name">switch()</span>
+            <span class="method-desc">Set user's current_team_id to the selected team</span>
+          </div>
+          <div class="method">
+            <span class="method-name">destroy()</span>
+            <span class="method-desc">Delete team (cascade invitations &amp; memberships), auto-switch other affected users to their personal team</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TeamInvitationController -->
+      <div class="card">
+        <div class="card-title">
+          TeamInvitationController
+          <span class="file-path">app/Http/Controllers/Teams/</span>
+        </div>
+        <p>Manages the full invitation lifecycle — sending, cancelling, and accepting invites.</p>
+        <div class="methods">
+          <div class="method">
+            <span class="method-name">store()</span>
+            <span class="method-desc">Create invitation with 3-day expiry &amp; send email notification</span>
+          </div>
+          <div class="method">
+            <span class="method-name">destroy()</span>
+            <span class="method-desc">Cancel a pending invitation (owner/admin only via Gate)</span>
+          </div>
+          <div class="method">
+            <span class="method-name">accept()</span>
+            <span class="method-desc">Create membership from invitation inside DB transaction, switch user to team, mark accepted_at</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TeamMemberController -->
+      <div class="card">
+        <div class="card-title">
+          TeamMemberController
+          <span class="file-path">app/Http/Controllers/Teams/</span>
+        </div>
+        <p>Handles role changes and removal of existing team members.</p>
+        <div class="methods">
+          <div class="method">
+            <span class="method-name">update()</span>
+            <span class="method-desc">Change a member's role (Owner/Admin permission required via Gate)</span>
+          </div>
+          <div class="method">
+            <span class="method-name">destroy()</span>
+            <span class="method-desc">Remove member; blocks owner removal; switches removed user back to personal team</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ProfileController -->
+      <div class="card">
+        <div class="card-title">
+          ProfileController
+          <span class="file-path">app/Http/Controllers/Settings/</span>
+        </div>
+        <p>User profile settings — view, update name/email, and delete account.</p>
+        <div class="methods">
+          <div class="method">
+            <span class="method-name">edit()</span>
+            <span class="method-desc">Show profile form; passes mustVerifyEmail flag to frontend</span>
+          </div>
+          <div class="method">
+            <span class="method-name">update()</span>
+            <span class="method-desc">Save name/email; clears email_verified_at if email changed</span>
+          </div>
+          <div class="method">
+            <span class="method-name">destroy()</span>
+            <span class="method-desc">Log out, delete user, invalidate session &amp; regenerate CSRF token</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SecurityController -->
+      <div class="card">
+        <div class="card-title">
+          SecurityController
+          <span class="file-path">app/Http/Controllers/Settings/</span>
+        </div>
+        <p>Password changes and Two-Factor Authentication management. Implements <code>HasMiddleware</code> for password confirmation.</p>
+        <div class="methods">
+          <div class="method">
+            <span class="method-name">middleware()</span>
+            <span class="method-desc">Conditionally applies password.confirm middleware when 2FA confirmPassword option is on</span>
+          </div>
+          <div class="method">
+            <span class="method-name">edit()</span>
+            <span class="method-desc">Show 2FA status — enabled, QR code state, recovery codes</span>
+          </div>
+          <div class="method">
+            <span class="method-name">update()</span>
+            <span class="method-desc">Change password (rate-limited: 6 attempts/min via route)</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       MIGRATIONS
+  ═══════════════════════════════════════════ -->
+  <section id="migrations">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(52,211,153,0.15);">🗃️</div>
+      <h2>Migrations</h2>
+    </div>
+    <p style="color:var(--muted); font-size:0.85rem; margin-bottom:1.2rem;">
+      7 migration files run in order — each represents a database schema change.
+    </p>
+
+    <!-- Migration 1 -->
+    <div class="mig-card">
+      <div class="mig-header">
+        <span style="font-weight:700;">Core Auth Tables</span>
+        <span class="mig-filename">0001_01_01_000000_create_users_table.php</span>
+      </div>
+      <div class="mig-body">
+        <p style="font-size:0.8rem; color:var(--muted); margin-bottom:0.8rem;">Creates 3 tables in one migration: <code>users</code>, <code>password_reset_tokens</code>, <code>sessions</code></p>
+        <table class="mig-table">
+          <tr><td class="col-name">users.id</td><td class="col-type">bigint PK</td><td class="col-note">auto-increment</td></tr>
+          <tr><td class="col-name">users.name</td><td class="col-type">string</td><td class="col-note"></td></tr>
+          <tr><td class="col-name">users.email</td><td class="col-type">string unique</td><td class="col-note"></td></tr>
+          <tr><td class="col-name">users.email_verified_at</td><td class="col-type">timestamp</td><td class="col-note">nullable</td></tr>
+          <tr><td class="col-name">users.password</td><td class="col-type">string</td><td class="col-note">hashed (bcrypt)</td></tr>
+          <tr><td class="col-name">users.remember_token</td><td class="col-type">string(100)</td><td class="col-note">nullable</td></tr>
+          <tr><td class="col-name">password_reset_tokens.email</td><td class="col-type">string PK</td><td class="col-note">one token per email</td></tr>
+          <tr><td class="col-name">sessions.id</td><td class="col-type">string PK</td><td class="col-note">session identifier</td></tr>
+          <tr><td class="col-name">sessions.user_id</td><td class="col-type">bigint FK</td><td class="col-note">nullable — guests have sessions too</td></tr>
+          <tr><td class="col-name">sessions.ip_address</td><td class="col-type">string(45)</td><td class="col-note">supports IPv6</td></tr>
+          <tr><td class="col-name">sessions.user_agent</td><td class="col-type">text</td><td class="col-note">browser info</td></tr>
+          <tr><td class="col-name">sessions.payload</td><td class="col-type">longText</td><td class="col-note">encrypted session data</td></tr>
+          <tr><td class="col-name">sessions.last_activity</td><td class="col-type">integer</td><td class="col-note">unix timestamp, indexed</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Migration 2 -->
+    <div class="mig-card">
+      <div class="mig-header">
+        <span style="font-weight:700;">Cache & Jobs Tables</span>
+        <span class="mig-filename">0001_01_01_000001 / 000002</span>
+      </div>
+      <div class="mig-body">
+        <p style="font-size:0.8rem; color:var(--muted);">Standard Laravel cache &amp; queue tables. Allows the app to use MySQL as cache/queue driver with no Redis.</p>
+        <table class="mig-table">
+          <tr><td class="col-name">cache.key</td><td class="col-type">string PK</td><td class="col-note">cache key</td></tr>
+          <tr><td class="col-name">cache.value</td><td class="col-type">mediumText</td><td class="col-note">serialized value</td></tr>
+          <tr><td class="col-name">cache.expiration</td><td class="col-type">integer</td><td class="col-note">unix expiry</td></tr>
+          <tr><td class="col-name">jobs.id</td><td class="col-type">bigint PK</td><td class="col-note">queue job</td></tr>
+          <tr><td class="col-name">jobs.queue</td><td class="col-type">string</td><td class="col-note">queue name</td></tr>
+          <tr><td class="col-name">jobs.payload</td><td class="col-type">longText</td><td class="col-note">serialized job data</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Migration 3 -->
+    <div class="mig-card">
+      <div class="mig-header">
+        <span style="font-weight:700;">Two-Factor Auth Columns</span>
+        <span class="mig-filename">2025_08_14_170933_add_two_factor_columns_to_users_table.php</span>
+      </div>
+      <div class="mig-body">
+        <p style="font-size:0.8rem; color:var(--muted); margin-bottom:0.8rem;">Alters <code>users</code> table — adds 3 columns for Fortify TOTP support.</p>
+        <table class="mig-table">
+          <tr><td class="col-name">two_factor_secret</td><td class="col-type">text</td><td class="col-note">nullable — encrypted TOTP secret</td></tr>
+          <tr><td class="col-name">two_factor_recovery_codes</td><td class="col-type">text</td><td class="col-note">nullable — JSON array of hashed codes</td></tr>
+          <tr><td class="col-name">two_factor_confirmed_at</td><td class="col-type">timestamp</td><td class="col-note">nullable — null = 2FA not yet confirmed</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Migration 4 -->
+    <div class="mig-card">
+      <div class="mig-header">
+        <span style="font-weight:700;">Teams, Members & Invitations</span>
+        <span class="mig-filename">2026_01_27_000001_create_teams_table.php</span>
+      </div>
+      <div class="mig-body">
+        <p style="font-size:0.8rem; color:var(--muted); margin-bottom:0.8rem;">Creates 3 related tables in one migration.</p>
+        <table class="mig-table">
+          <tr><td class="col-name">teams.id</td><td class="col-type">bigint PK</td><td class="col-note"></td></tr>
+          <tr><td class="col-name">teams.name</td><td class="col-type">string</td><td class="col-note"></td></tr>
+          <tr><td class="col-name">teams.slug</td><td class="col-type">string unique</td><td class="col-note">used in URLs instead of ID</td></tr>
+          <tr><td class="col-name">teams.is_personal</td><td class="col-type">boolean</td><td class="col-note">true = auto-created personal team</td></tr>
+          <tr><td class="col-name">teams.deleted_at</td><td class="col-type">timestamp</td><td class="col-note">soft deletes</td></tr>
+          <tr><td class="col-name">team_members.team_id</td><td class="col-type">FK → teams</td><td class="col-note">cascadeOnDelete</td></tr>
+          <tr><td class="col-name">team_members.user_id</td><td class="col-type">FK → users</td><td class="col-note">cascadeOnDelete</td></tr>
+          <tr><td class="col-name">team_members.role</td><td class="col-type">string (enum)</td><td class="col-note">owner / admin / member</td></tr>
+          <tr><td class="col-name">team_members unique</td><td class="col-type">[team_id, user_id]</td><td class="col-note">one row per user per team</td></tr>
+          <tr><td class="col-name">team_invitations.code</td><td class="col-type">string(64) unique</td><td class="col-note">auto-generated on model create</td></tr>
+          <tr><td class="col-name">team_invitations.email</td><td class="col-type">string</td><td class="col-note">invitee email</td></tr>
+          <tr><td class="col-name">team_invitations.role</td><td class="col-type">string</td><td class="col-note">role to assign on accept</td></tr>
+          <tr><td class="col-name">team_invitations.invited_by</td><td class="col-type">FK → users</td><td class="col-note">cascadeOnDelete</td></tr>
+          <tr><td class="col-name">team_invitations.expires_at</td><td class="col-type">timestamp</td><td class="col-note">nullable — 3 days from creation</td></tr>
+          <tr><td class="col-name">team_invitations.accepted_at</td><td class="col-type">timestamp</td><td class="col-note">nullable — null = pending</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Migration 5 -->
+    <div class="mig-card">
+      <div class="mig-header">
+        <span style="font-weight:700;">current_team_id on Users</span>
+        <span class="mig-filename">2026_01_27_000002_add_current_team_id_to_users_table.php</span>
+      </div>
+      <div class="mig-body">
+        <p style="font-size:0.8rem; color:var(--muted); margin-bottom:0.8rem;">Alters <code>users</code> — adds foreign key to track the user's active team.</p>
+        <table class="mig-table">
+          <tr><td class="col-name">current_team_id</td><td class="col-type">FK → teams</td><td class="col-note">nullable, nullOnDelete — safe if team deleted</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Migration 6 -->
+    <div class="mig-card">
+      <div class="mig-header">
+        <span style="font-weight:700;">Products Table</span>
+        <span class="mig-filename">2026_05_05_091853_create_products_table.php</span>
+      </div>
+      <div class="mig-body">
+        <p style="font-size:0.8rem; color:var(--muted); margin-bottom:0.8rem;">The core gallery inventory table.</p>
+        <table class="mig-table">
+          <tr><td class="col-name">id</td><td class="col-type">bigint PK</td><td class="col-note"></td></tr>
+          <tr><td class="col-name">name</td><td class="col-type">string</td><td class="col-note"></td></tr>
+          <tr><td class="col-name">category</td><td class="col-type">enum</td><td class="col-note">painting, antique_piece, vase, handcraft, old_electronic</td></tr>
+          <tr><td class="col-name">description</td><td class="col-type">text</td><td class="col-note">nullable</td></tr>
+          <tr><td class="col-name">price</td><td class="col-type">decimal(10,2)</td><td class="col-note">supports up to 99,999,999.99</td></tr>
+          <tr><td class="col-name">image</td><td class="col-type">string</td><td class="col-note">nullable — file path</td></tr>
+          <tr><td class="col-name">is_available</td><td class="col-type">boolean</td><td class="col-note">default true</td></tr>
+          <tr><td class="col-name">created_at / updated_at</td><td class="col-type">timestamps</td><td class="col-note"></td></tr>
+        </table>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SESSIONS
+  ═══════════════════════════════════════════ -->
+  <section id="sessions">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(34,211,238,0.15);">🔒</div>
+      <h2>Sessions</h2>
+    </div>
+    <p style="color:var(--muted); font-size:0.85rem; margin-bottom:1.2rem;">
+      Laravel is configured to store sessions in the MySQL database (not files or Redis).
+    </p>
+    <div class="session-grid">
+      <div class="info-block">
+        <h3>Session Configuration</h3>
+        <div class="info-row"><span class="info-key">Driver</span><span class="info-val">database</span></div>
+        <div class="info-row"><span class="info-key">Table</span><span class="info-val">sessions</span></div>
+        <div class="info-row"><span class="info-key">Lifetime</span><span class="info-val">120 minutes</span></div>
+        <div class="info-row"><span class="info-key">Expire on close</span><span class="info-val">false</span></div>
+        <div class="info-row"><span class="info-key">Encrypt payload</span><span class="info-val">true (Laravel default)</span></div>
+        <div class="info-row"><span class="info-key">Cookie name</span><span class="info-val">muftiproj_session</span></div>
+        <div class="info-row"><span class="info-key">Same site</span><span class="info-val">lax</span></div>
+      </div>
+      <div class="info-block">
+        <h3>sessions Table Columns</h3>
+        <div class="info-row"><span class="info-key">id (PK)</span><span class="info-val">string — session token</span></div>
+        <div class="info-row"><span class="info-key">user_id</span><span class="info-val">FK users (nullable — guests)</span></div>
+        <div class="info-row"><span class="info-key">ip_address</span><span class="info-val">string(45) — IPv4/IPv6</span></div>
+        <div class="info-row"><span class="info-key">user_agent</span><span class="info-val">text — browser string</span></div>
+        <div class="info-row"><span class="info-key">payload</span><span class="info-val">longText — encrypted data</span></div>
+        <div class="info-row"><span class="info-key">last_activity</span><span class="info-val">integer (unix ts) — indexed</span></div>
+      </div>
+      <div class="info-block">
+        <h3>What Gets Stored in a Session</h3>
+        <div class="info-row"><span class="info-key">Auth state</span><span class="info-val">Logged-in user ID</span></div>
+        <div class="info-row"><span class="info-key">CSRF token</span><span class="info-val">_token</span></div>
+        <div class="info-row"><span class="info-key">Flash messages</span><span class="info-val">success / error status</span></div>
+        <div class="info-row"><span class="info-key">Inertia flashes</span><span class="info-val">toast type + message</span></div>
+        <div class="info-row"><span class="info-key">Password confirm</span><span class="info-val">auth.password_confirmed_at</span></div>
+        <div class="info-row"><span class="info-key">2FA challenge</span><span class="info-val">login.id during 2FA flow</span></div>
+      </div>
+      <div class="info-block">
+        <h3>Session Security Notes</h3>
+        <div class="info-row"><span class="info-key">Regeneration</span><span class="info-val">On login &amp; logout</span></div>
+        <div class="info-row"><span class="info-key">Invalidation</span><span class="info-val">On account delete</span></div>
+        <div class="info-row"><span class="info-key">CSRF</span><span class="info-val">Verified on all POST/PATCH/PUT/DELETE</span></div>
+        <div class="info-row"><span class="info-key">Remember me</span><span class="info-val">remember_token in users table</span></div>
+        <div class="info-row"><span class="info-key">Password confirm timeout</span><span class="info-val">Required before 2FA setup</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       ROUTES
+  ═══════════════════════════════════════════ -->
+  <section id="routes">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(251,191,36,0.15);">🗺️</div>
+      <h2>Routes</h2>
+    </div>
+    <p style="color:var(--muted); font-size:0.85rem; margin-bottom:0.5rem;">
+      Defined across <code>routes/web.php</code> and <code>routes/settings.php</code>.
+      Fortify handles all auth routes automatically (<code>/login</code>, <code>/register</code>, etc.).
+    </p>
+
+    <!-- Legend -->
+    <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1.2rem; font-size:0.78rem;">
+      <span class="badge badge-public">Public</span>
+      <span class="badge badge-auth">auth</span>
+      <span class="badge badge-verified">auth + verified</span>
+      <span class="badge badge-throttle">throttle</span>
+      &nbsp;
+      <span class="badge badge-get">GET</span>
+      <span class="badge badge-post">POST</span>
+      <span class="badge badge-patch">PATCH</span>
+      <span class="badge badge-put">PUT</span>
+      <span class="badge badge-delete">DELETE</span>
+    </div>
+
+    <!-- Public Routes -->
+    <h3 style="font-size:0.9rem; color:var(--muted); margin-bottom:0.6rem; text-transform:uppercase; letter-spacing:.05em;">Public</h3>
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem;">
+      <table class="route-table">
+        <thead><tr><th>Method</th><th>URI</th><th>Name</th><th>Handler</th><th>Guard</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-get">GET</span></td>
+            <td><code>/</code></td>
+            <td>home</td>
+            <td>Inertia → welcome page</td>
+            <td><span class="badge badge-public">Public</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-get">GET</span></td>
+            <td><code>/products</code></td>
+            <td>products.index</td>
+            <td>ProductController@index</td>
+            <td><span class="badge badge-public">Public</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Fortify Auth Routes -->
+    <h3 style="font-size:0.9rem; color:var(--muted); margin-bottom:0.6rem; text-transform:uppercase; letter-spacing:.05em;">Fortify Authentication (auto-registered)</h3>
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem;">
+      <table class="route-table">
+        <thead><tr><th>Method</th><th>URI</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge badge-get">GET</span></td><td><code>/login</code></td><td>Show login form</td></tr>
+          <tr><td><span class="badge badge-post">POST</span></td><td><code>/login</code></td><td>Authenticate user</td></tr>
+          <tr><td><span class="badge badge-post">POST</span></td><td><code>/logout</code></td><td>Destroy session</td></tr>
+          <tr><td><span class="badge badge-get">GET</span></td><td><code>/register</code></td><td>Show register form</td></tr>
+          <tr><td><span class="badge badge-post">POST</span></td><td><code>/register</code></td><td>Create account + personal team</td></tr>
+          <tr><td><span class="badge badge-get">GET</span></td><td><code>/forgot-password</code></td><td>Show forgot-password form</td></tr>
+          <tr><td><span class="badge badge-post">POST</span></td><td><code>/forgot-password</code></td><td>Send reset link email</td></tr>
+          <tr><td><span class="badge badge-get">GET</span></td><td><code>/reset-password/{token}</code></td><td>Show reset form</td></tr>
+          <tr><td><span class="badge badge-post">POST</span></td><td><code>/reset-password</code></td><td>Apply new password</td></tr>
+          <tr><td><span class="badge badge-get">GET</span></td><td><code>/verify-email</code></td><td>Email verification notice</td></tr>
+          <tr><td><span class="badge badge-post">POST</span></td><td><code>/confirm-password</code></td><td>Confirm password before sensitive action</td></tr>
+          <tr><td><span class="badge badge-get">GET</span></td><td><code>/two-factor-challenge</code></td><td>Show 2FA code input</td></tr>
+          <tr><td><span class="badge badge-post">POST</span></td><td><code>/two-factor-challenge</code></td><td>Verify TOTP code</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Auth Product Routes -->
+    <h3 style="font-size:0.9rem; color:var(--muted); margin-bottom:0.6rem; text-transform:uppercase; letter-spacing:.05em;">Products (auth required)</h3>
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem;">
+      <table class="route-table">
+        <thead><tr><th>Method</th><th>URI</th><th>Name</th><th>Handler</th><th>Guard</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-get">GET</span></td>
+            <td><code>/products/all</code></td>
+            <td>products.all</td>
+            <td>ProductController@all</td>
+            <td><span class="badge badge-auth">auth</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-get">GET</span></td>
+            <td><code>/products/create</code></td>
+            <td>products.create</td>
+            <td>ProductController@create</td>
+            <td><span class="badge badge-auth">auth</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-post">POST</span></td>
+            <td><code>/products</code></td>
+            <td>products.store</td>
+            <td>ProductController@store</td>
+            <td><span class="badge badge-auth">auth</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-get">GET</span></td>
+            <td><code>/products/{product}/edit</code></td>
+            <td>products.edit</td>
+            <td>ProductController@edit</td>
+            <td><span class="badge badge-auth">auth</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-put">PUT</span></td>
+            <td><code>/products/{product}</code></td>
+            <td>products.update</td>
+            <td>ProductController@update</td>
+            <td><span class="badge badge-auth">auth</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-delete">DELETE</span></td>
+            <td><code>/products/{product}</code></td>
+            <td>products.destroy</td>
+            <td>ProductController@destroy</td>
+            <td><span class="badge badge-auth">auth</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Team Dashboard -->
+    <h3 style="font-size:0.9rem; color:var(--muted); margin-bottom:0.6rem; text-transform:uppercase; letter-spacing:.05em;">Team Dashboard</h3>
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem;">
+      <table class="route-table">
+        <thead><tr><th>Method</th><th>URI</th><th>Name</th><th>Handler</th><th>Guard</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-get">GET</span></td>
+            <td><code>/{team}/dashboard</code></td>
+            <td>dashboard</td>
+            <td>Inertia → dashboard page</td>
+            <td><span class="badge badge-verified">auth + verified + team member</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Invitation Accept -->
+    <h3 style="font-size:0.9rem; color:var(--muted); margin-bottom:0.6rem; text-transform:uppercase; letter-spacing:.05em;">Invitation Accept</h3>
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem;">
+      <table class="route-table">
+        <thead><tr><th>Method</th><th>URI</th><th>Name</th><th>Handler</th><th>Guard</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-get">GET</span></td>
+            <td><code>/invitations/{invitation}/accept</code></td>
+            <td>invitations.accept</td>
+            <td>TeamInvitationController@accept</td>
+            <td><span class="badge badge-auth">auth</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Settings Routes -->
+    <h3 style="font-size:0.9rem; color:var(--muted); margin-bottom:0.6rem; text-transform:uppercase; letter-spacing:.05em;">Settings — Profile &amp; Appearance</h3>
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem;">
+      <table class="route-table">
+        <thead><tr><th>Method</th><th>URI</th><th>Name</th><th>Handler</th><th>Guard</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-get">GET</span></td>
+            <td><code>/settings/profile</code></td>
+            <td>profile.edit</td>
+            <td>ProfileController@edit</td>
+            <td><span class="badge badge-auth">auth</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-patch">PATCH</span></td>
+            <td><code>/settings/profile</code></td>
+            <td>profile.update</td>
+            <td>ProfileController@update</td>
+            <td><span class="badge badge-auth">auth</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-delete">DELETE</span></td>
+            <td><code>/settings/profile</code></td>
+            <td>profile.destroy</td>
+            <td>ProfileController@destroy</td>
+            <td><span class="badge badge-verified">auth + verified</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-get">GET</span></td>
+            <td><code>/settings/appearance</code></td>
+            <td>appearance.edit</td>
+            <td>Inertia → settings/appearance</td>
+            <td><span class="badge badge-verified">auth + verified</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Security Routes -->
+    <h3 style="font-size:0.9rem; color:var(--muted); margin-bottom:0.6rem; text-transform:uppercase; letter-spacing:.05em;">Settings — Security &amp; Password</h3>
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem;">
+      <table class="route-table">
+        <thead><tr><th>Method</th><th>URI</th><th>Name</th><th>Handler</th><th>Guard</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-get">GET</span></td>
+            <td><code>/settings/security</code></td>
+            <td>security.edit</td>
+            <td>SecurityController@edit</td>
+            <td><span class="badge badge-verified">auth + verified</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-put">PUT</span></td>
+            <td><code>/settings/password</code></td>
+            <td>user-password.update</td>
+            <td>SecurityController@update</td>
+            <td><span class="badge badge-verified">auth + verified</span> <span class="badge badge-throttle">throttle 6/min</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Teams Settings -->
+    <h3 style="font-size:0.9rem; color:var(--muted); margin-bottom:0.6rem; text-transform:uppercase; letter-spacing:.05em;">Settings — Teams, Members &amp; Invitations</h3>
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem;">
+      <table class="route-table">
+        <thead><tr><th>Method</th><th>URI</th><th>Name</th><th>Handler</th><th>Guard</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-get">GET</span></td>
+            <td><code>/settings/teams</code></td>
+            <td>teams.index</td>
+            <td>TeamController@index</td>
+            <td><span class="badge badge-verified">auth + verified</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-post">POST</span></td>
+            <td><code>/settings/teams</code></td>
+            <td>teams.store</td>
+            <td>TeamController@store</td>
+            <td><span class="badge badge-verified">auth + verified</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-get">GET</span></td>
+            <td><code>/settings/teams/{team}</code></td>
+            <td>teams.edit</td>
+            <td>TeamController@edit</td>
+            <td><span class="badge badge-verified">auth + verified + team member</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-patch">PATCH</span></td>
+            <td><code>/settings/teams/{team}</code></td>
+            <td>teams.update</td>
+            <td>TeamController@update</td>
+            <td><span class="badge badge-verified">auth + verified + team member</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-delete">DELETE</span></td>
+            <td><code>/settings/teams/{team}</code></td>
+            <td>teams.destroy</td>
+            <td>TeamController@destroy</td>
+            <td><span class="badge badge-verified">auth + verified + team member</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-post">POST</span></td>
+            <td><code>/settings/teams/{team}/switch</code></td>
+            <td>teams.switch</td>
+            <td>TeamController@switch</td>
+            <td><span class="badge badge-verified">auth + verified + team member</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-patch">PATCH</span></td>
+            <td><code>/settings/teams/{team}/members/{user}</code></td>
+            <td>teams.members.update</td>
+            <td>TeamMemberController@update</td>
+            <td><span class="badge badge-verified">auth + verified + team member</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-delete">DELETE</span></td>
+            <td><code>/settings/teams/{team}/members/{user}</code></td>
+            <td>teams.members.destroy</td>
+            <td>TeamMemberController@destroy</td>
+            <td><span class="badge badge-verified">auth + verified + team member</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-post">POST</span></td>
+            <td><code>/settings/teams/{team}/invitations</code></td>
+            <td>teams.invitations.store</td>
+            <td>TeamInvitationController@store</td>
+            <td><span class="badge badge-verified">auth + verified + team member</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-delete">DELETE</span></td>
+            <td><code>/settings/teams/{team}/invitations/{invitation}</code></td>
+            <td>teams.invitations.destroy</td>
+            <td>TeamInvitationController@destroy</td>
+            <td><span class="badge badge-verified">auth + verified + team member</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </section>
+
+  <footer>
+    Mufti Gallery — Laravel 11 + React 19 + TypeScript &nbsp;·&nbsp; Generated 2026-05-12
+  </footer>
+
+</div>
+
+</body>
+</html>

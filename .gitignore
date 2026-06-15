@@ -1,0 +1,46 @@
+# Laravel / PHP Dependencies & Caches
+/vendor
+/.phpunit.cache
+/.phpunit.result.cache
+.phpactor.json
+.phpunit.xml.user
+
+# Node / Frontend Build Tools
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/bootstrap/ssr
+package-lock.json.log
+
+# Environment & Sensitive Files (CRITICAL)
+.env
+.env.backup
+.env.production
+/auth.json
+
+# Storage & Keys
+/storage/*.key
+/storage/pail
+# Note: Subfolders like storage/logs and storage/framework
+# are already protected by their own local .gitignore files.
+
+# Project-Specific Exclusions
+/resources/js/actions
+/resources/js/routes
+/resources/js/wayfinder
+
+# Local Development & VMs
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+
+# IDEs, Editors, and OS Files
+.DS_Store
+Thumbs.db
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
